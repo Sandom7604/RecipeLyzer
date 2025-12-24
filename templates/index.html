@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>RecipeLyzer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <div class="mainBox">
+    <div class="heading">RecipeLyzer</div>
+    <hr style="width:140px; margin:10px auto;">
+    <div class="smallText">Find recipes using an API</div>
+
+    <form id="searchForm" method="post">
+      <input
+        type="text"
+        name="query"
+        id="queryInput"
+        placeholder="Enter ingredient or recipe"
+      >
+
+      <div id="warn" style="color:red; display:none; margin-bottom:8px;">
+        Please use one of the buttons below.
+      </div>
+
+      <button class="btn" type="submit" name="type" value="ingredient">
+        Search by Main Ingredient
+      </button>
+
+      <button class="btn" type="submit" name="type" value="name">
+        Search by Name
+      </button>
+
+      <button class="btn" type="submit" name="type" value="random">
+        Random Recipe
+      </button>
+    </form>
+
+    {% if error %}
+      <p style="color:red; margin-top:10px;">{{ error }}</p>
+    {% endif %}
+
+    {% if recipe %}
+      <hr>
+      <h3>{{ recipe.name }}</h3>
+
+      {% if recipe.image != "N/A" %}
+        <img src="{{ recipe.image }}" alt="Recipe image"
+             style="width:100%; max-width:300px;">
+      {% endif %}
+
+      {% if recipe.link != "N/A" %}
+        <p>
+          <a href="{{ recipe.link }}" target="_blank">
+            View full recipe
+          </a>
+        </p>
+      {% else %}
+        <p>No external recipe link available.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
